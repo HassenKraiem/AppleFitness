@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Apple Fitness</string>
+    <string name="sharing">Sharing</string>
+    <string name="share_activity">Share Activity</string>
+    <string name="tap_the_button_above_to_invite_people_to_share_activity_with_you">Tap the button above to invite people to share Activity with you.</string>
+    <string name="see_how_your_data_is_managed">See how your data is managed..</string>
+    <string name="welcome">Welcome to Fitness+</string>
+    <string name="everything_you_need_to_know">Everything you need to know to get started</string>
+    <string name="cycling_for_the_weekend">Cycling for the Weekend</string>
+    <string name="energizing_10_minute_rides">Energizing, 10-minute rides</string>
+    <string name="sunday_apr_9">SUNDAY, APR 9</string>
+    <string name="summary">Summary</string>
+</resources>
