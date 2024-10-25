@@ -10,4 +10,15 @@
     <string name="energizing_10_minute_rides">Energizing, 10-minute rides</string>
     <string name="sunday_apr_9">SUNDAY, APR 9</string>
     <string name="summary">Summary</string>
+    <string name="strength_training">Strength Training</string>
+    <string name="returner">return</string>
+    <string name="plus">plus</string>
+    <string name="pause">Pause</string>
+    <string name="start">start</string>
+    <string name="reset">Reset</string>
+    <string name="workout_time">Workout Time</string>
+    <string name="active_calories">Active Calories</string>
+    <string name="start_workout">Start Workout</string>
+    <string name="show_more">Show More</string>
+    <string name="workouts_details">Workouts Details</string>
 </resources>

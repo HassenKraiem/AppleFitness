@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +48,7 @@ fun WorkoutBox(training: Training,
         ) {
             Column {
                 Text(
-                    text = "Workout Time",
+                    text = stringResource(R.string.workout_time),
                     fontFamily = FontFamily(Font(R.font.sf_pro_regular)),
                     fontSize = 18.sp,
                     lineHeight = 21.48.sp,
@@ -63,14 +64,14 @@ fun WorkoutBox(training: Training,
             }
             Column {
                 Text(
-                    text = "Active Calories",
+                    text = stringResource(R.string.active_calories),
                     fontFamily = FontFamily(Font(R.font.sf_pro_regular)),
                     fontSize = 18.sp,
                     lineHeight = 21.48.sp,
                     color = Color.White
                 )
                 Text(
-                    text = training.cal.toString() + "CAL",
+                    text = "${training.cal.toString()}CAL",
                     fontFamily = FontFamily(Font(R.font.sf_pro_regular)),
                     fontSize = 30.sp,
                     lineHeight = 35.8.sp,
@@ -87,11 +88,11 @@ fun WorkoutBox(training: Training,
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
                 .padding(vertical = 12.dp)
-                .aspectRatio(336/53f)
+                .aspectRatio(336 / 53f)
 
         ) {
             Text(
-                text = "Start Workout",
+                text = stringResource(R.string.start_workout),
                 fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
                 fontSize = 18.sp,
                 lineHeight = 21.48.sp

@@ -1,6 +1,7 @@
 package com.example.applefitness.ui.screen.timer
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
@@ -11,6 +12,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -42,9 +45,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -63,6 +64,7 @@ import com.example.applefitness.R
 import com.example.applefitness.ui.AppViewModel
 import com.example.applefitness.ui.theme.Green01
 import com.example.applefitness.ui.theme.Green02
+import com.example.applefitness.ui.theme.Green03
 import com.example.applefitness.ui.theme.Red01
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -73,7 +75,7 @@ fun TimeRunningScreenContent(
     appViewModel: AppViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    var timeRunning by remember { mutableStateOf(false) }
+    var timeRunning =appViewModel.timeRunning
     val timeUiState by appViewModel.timeUiState.collectAsState()
 
     LaunchedEffect(timeUiState) {
@@ -100,7 +102,7 @@ fun TimeRunningScreenContent(
                 ),
                 title = {
                     Text(
-                        text = "Strength Training",
+                        text = stringResource(R.string.strength_training),
                         fontFamily = FontFamily(Font(R.font.sf_pro_regular)),
                         fontSize = 18.sp,
                         lineHeight = 21.48.sp,
@@ -111,11 +113,11 @@ fun TimeRunningScreenContent(
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "return",
+                            contentDescription = stringResource(R.string.returner),
                             tint = Green01
                         )
                         Text(
-                            text = "Summary",
+                            text = stringResource(R.string.summary),
                             fontFamily = FontFamily(Font(R.font.sf_pro_regular)),
                             fontSize = 16.sp,
                             lineHeight = 19.09.sp,
@@ -135,7 +137,7 @@ fun TimeRunningScreenContent(
             )
         }) { innerPadding ->
 
-        if (timeUiState.startCount != 0) {
+        if (timeUiState.startCount != -1) {
             val infiniteTransition= rememberInfiniteTransition(label = "")
             val angle by infiniteTransition.animateFloat(
                 initialValue = 0f,
@@ -152,12 +154,19 @@ fun TimeRunningScreenContent(
                     .background(color = Color.Black)
                     .padding(innerPadding)
             ) {
-
-                Text(
-                    text = timeUiState.startCount.toString(),
-                    color = Color.White,
-                    fontSize = 80.sp
+                AnimatedContent(targetState = timeUiState.startCount,
+                    transitionSpec = {(fadeIn(animationSpec = tween(600)) +
+                            scaleIn( animationSpec = tween(600)))
+                        .togetherWith(fadeOut(animationSpec = tween(600))) }, label = ""
                 )
+                {
+
+                    Text(
+                        text = it.toString(),
+                        color = Color.White,
+                        fontSize = 80.sp
+                    )
+                }
                 Canvas(
                     modifier = Modifier
                         .size(259.dp),
@@ -173,7 +182,7 @@ fun TimeRunningScreenContent(
                         .size(259.dp),
                 ) {
                     drawArc(
-                        color = Green02,
+                        color = Green03,
                         style = Stroke(width = 50f,
                             cap = StrokeCap.Round,
                             join = StrokeJoin.Round),
@@ -235,7 +244,11 @@ fun TimeRunningScreenContent(
                     }
                 }
                 Spacer(Modifier.height(167.dp))
-                if (!timeRunning) {
+                AnimatedVisibility(
+                    visible = !timeRunning,
+                    enter = scaleIn(animationSpec = tween(500)),
+                    exit = scaleOut(animationSpec = tween(500))
+                ) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
@@ -269,7 +282,7 @@ fun TimeRunningScreenContent(
                     )
                     Icon(
                         painter = painterResource(R.drawable.plus),
-                        contentDescription = "plus",
+                        contentDescription = stringResource(R.string.plus),
                         modifier = Modifier
                             .size(50.dp)
                             .clip(shape = RoundedCornerShape(50.dp))
@@ -286,11 +299,12 @@ fun TimeRunningScreenContent(
                     modifier = Modifier.height(53.dp)
                 ) {
                     Button(
-                        onClick = if (!timeRunning) {
+                        /*onClick = if (!timeRunning) {
                             { timeRunning = true }
                         } else {
                             { timeRunning = false }
-                        },
+                        }*/
+                        onClick = {appViewModel.changeTimeState()},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Green01
                         ),
@@ -301,16 +315,18 @@ fun TimeRunningScreenContent(
                             .padding(horizontal = 10.dp)
                     ) {
                         Text(
-                            text = if (timeRunning) "Pause" else "start",
+                            text = if (timeRunning) stringResource(R.string.pause) else stringResource(
+                                R.string.start
+                            ),
                             fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
                             fontSize = 18.sp,
-                            lineHeight = 21.48.sp
+                            lineHeight = 21.48.sp,
+                            color = Color.Black
                         )
                     }
                     Button(
                         onClick = {
                             appViewModel.reset()
-                            timeRunning = false
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Green01
@@ -322,10 +338,11 @@ fun TimeRunningScreenContent(
                             .padding(horizontal = 10.dp)
                     ) {
                         Text(
-                            text = "Reset",
+                            text = stringResource(R.string.reset),
                             fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
                             fontSize = 18.sp,
-                            lineHeight = 21.48.sp
+                            lineHeight = 21.48.sp,
+                            color = Color.Black
                         )
                     }
                 }

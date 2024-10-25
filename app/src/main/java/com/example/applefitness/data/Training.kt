@@ -5,6 +5,7 @@ class Training(
     val hours:String,
     val minute:String,
     val seconds:String,
-    val cal:Int=0,
     val id:String
-)
+) {
+    val cal = (1000* ((360*hours.toInt())+(60*minute.toInt())+seconds.toInt()))/(360*2)
+}

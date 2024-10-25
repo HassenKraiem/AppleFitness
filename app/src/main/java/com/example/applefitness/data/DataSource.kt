@@ -33,10 +33,8 @@ object DataSource {
             imageId = R.drawable.meditation,
             name = "MEDITATION"
 
-        ),
-
-
         )
+    )
     val listOfEpisode = listOf(
         Episode(
             imageId = R.drawable.wind_1,
@@ -53,9 +51,8 @@ object DataSource {
         Episode(
             imageId = R.drawable.wind_4,
             title = "10min-Latest Hits-Ep89"
-        ),
-
         )
+    )
 
     val listOfTraining = listOf(
         Training(
@@ -66,11 +63,32 @@ object DataSource {
             id = "0"
         ),
         Training(
-            type = "Traditional Strength Training",
-            hours = "00",
+            type = "Stamina Increase Training",
+            hours = "01",
             minute = "20",
             seconds = "00",
-            id = "1"
+            id = "1",
+        ),
+        Training(
+            type = "Stamina Increase Training",
+            hours = "01",
+            minute = "02",
+            seconds = "00",
+            id = "2",
+        ),
+        Training(
+            type = "Legs Day .......",
+            hours = "10",
+            minute = "00",
+            seconds = "00",
+            id = "3",
+        ),
+        Training(
+            type = "Burn every calorie in your body",
+            hours = "02",
+            minute = "00",
+            seconds = "00",
+            id = "4",
         )
     )
 }

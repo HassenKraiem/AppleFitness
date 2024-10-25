@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -22,7 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.applefitness.data.Screen
 import com.example.applefitness.navigation.AllNavigation
-import com.example.applefitness.ui.theme.Black03
+import com.example.applefitness.ui.theme.Black01
 import com.example.applefitness.ui.theme.Green01
 import com.example.applefitness.ui.theme.Gris01
 
@@ -41,7 +42,7 @@ fun MainScreen() {
             it.route in screenList
         }==true
     ) {
-        Scaffold(
+        Scaffold(containerColor = Color.Black,
             bottomBar = { BottomBar(navController = navController, modifier = Modifier) }
         ) { innerPadding ->
             AllNavigation(
@@ -69,7 +70,7 @@ fun BottomBar(navController: NavHostController,
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar(containerColor = Black03) {
+    NavigationBar(containerColor = Black01) {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,
@@ -107,7 +108,7 @@ fun RowScope.AddItem(
             selectedIconColor = Green01,
             unselectedTextColor = Gris01,
             selectedTextColor = Green01,
-            disabledIconColor = Green01,
+            indicatorColor = Black01
 
         ),
         onClick = {

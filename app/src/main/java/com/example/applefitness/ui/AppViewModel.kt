@@ -1,5 +1,8 @@
 package com.example.applefitness.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.applefitness.data.Training
 import kotlinx.coroutines.delay
@@ -24,7 +27,6 @@ class AppViewModel :ViewModel() {
         initialHours=_timeUiState.value.hours
         initialMinutes = _timeUiState.value.minutes
         initialSeconds=_timeUiState.value.seconds
-
     }
 
     private var initialHours=_timeUiState.value.hours
@@ -44,15 +46,12 @@ class AppViewModel :ViewModel() {
                    currentState.copy(
                        minutes = 59
                    )
-
                }
                _timeUiState.update {currentState->
                    currentState.copy(
                        seconds = 59
                    )
-
                }
-
            }
            if (_timeUiState.value.seconds==0){
                _timeUiState.update { currentState->
@@ -64,10 +63,7 @@ class AppViewModel :ViewModel() {
                    currentState.copy(
                        seconds = 59
                    )
-
                }
-
-
            }
            delay(1000L)
            _timeUiState.update {currentState->
@@ -75,9 +71,6 @@ class AppViewModel :ViewModel() {
                    seconds = currentState.seconds-1
                )
            }
-
-
-
        }
     }
     fun reset(){
@@ -88,6 +81,7 @@ class AppViewModel :ViewModel() {
                 hours = initialHours
             )
         }
+        timeRunning=false
     }
     fun plus(){
         _timeUiState.update {currentState->
@@ -136,7 +130,7 @@ class AppViewModel :ViewModel() {
         }
     }
     suspend fun startCountDown(){
-        while (_timeUiState.value.startCount!=0) {
+        while (_timeUiState.value.startCount!=-1) {
             delay(1000L)
             _timeUiState.update { currentState ->
                 currentState.copy(
@@ -145,6 +139,11 @@ class AppViewModel :ViewModel() {
             }
         }
     }
+    var timeRunning by mutableStateOf(false)
+    fun changeTimeState(){
+        timeRunning=!timeRunning
+    }
+
 
 
 }
